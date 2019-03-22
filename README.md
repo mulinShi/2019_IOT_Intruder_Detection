@@ -17,9 +17,4 @@ One trick I found particularly useful (for small dataset) is to do the augmentat
 
 In this way, we only need to compute for the two-layer head later on. In other words, we no longer need to do real time augmentation and calculate the whole model again and again (forward pass still time-consuming even though the Xception is non-trainable). This is useful when we are not sure about the hyper parameters and need to tune the model many times in the beginning. However, we might end up with limited variability because once we augment the data, we settle on it. For this specific project, it seems no issues with this approach so far.
 
-# Training and prediction
-Following the above procedures, x_train becomes 3840x2048 array and y_train becomes 3840x1 vector after "pre-augmentation and feature extraction" (192 x 20 = 3840). That means we get 3840 observations to work with rather than just 192. However, every 192 rows in the array is actually just a slight variation from the original images. To avoid the possibility that two or more images with the same origin are selected in the same batch (e.g. batch size of 32), we do not shuffle the training set when fitting the model. That said, within each 192 samples, the order is randomized when we do the augmentation.
-
-Adam is used for optimization with a default learning rate of 1e-3. Binary crossentropy is used as the loss function. I also used 0.01 as weight decay for L2 regularization. The 2-layer custom head is saved in the model directory.
-
 
