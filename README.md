@@ -3,9 +3,9 @@
 In order to practice the idea of transfer learning, I decided to work on this scene image classification project as an AI application for my IOT assignment one. 
 
 # Dataset
-I first built a small dataset consisting of ~200 images. The location is diverse, including bedrooms, living rooms, dining rooms, study rooms and kitchens, which might help to discourage the model from capturing unrelated features but instead focus more on the "messiness".
+I first built a small dataset consisting of 160 images. 
 
-All the images are downloaded from Google and preprocessed. The dataset can be found on Kaggle. There are 192 images in the training set (96 per class); 20 images (10 per class) in the validation set; 10 images (5 per class) in the test set. The test set is left untouched during the training and tuning, and it is only used in the final step to assess the generalization of the model.
+All the images are downloaded from Google and preprocessed.  There are 160 images in the training set (80 per class); 20 images (10 per class) in the validation set; 10 images  in the test set. The test set is left untouched during the training and tuning, and it is only used in the final step to assess the generalization of the model.
 
 # Design
 In this project, I used the pretrained CNN model Xception as the body, and build a custom head to decode the feature in the end. Xception is an improvement from Inception-V3. It has 79% Top-1 and 94.5% Top-5 accuracy on ImageNet. The pretrained model takes 299x299x3 image input and outputs a 2048x1 feature vector after global average pooling. Then I added a fully connected layer of 10 units and an output layer with 1 unit for binary classification. L2 regularization is used in both layers to prevent overfitting. Retraining is done using Keras with Tensorflow as backend.
@@ -22,7 +22,4 @@ Following the above procedures, x_train becomes 3840x2048 array and y_train beco
 
 Adam is used for optimization with a default learning rate of 1e-3. Binary crossentropy is used as the loss function. I also used 0.01 as weight decay for L2 regularization. The 2-layer custom head is saved in the model directory.
 
-The training result is shown below. The model fast converges and achieves 96.7%, 95% (19/20) accuracy on training and validation set respectively. training metrics
-
-To evaluate the generalization capacity of the model, I used a test set that the model has never seen during the training and tuning. As shown below, the model rather accurately predicts the "probability" of being messy room. predictions
 
