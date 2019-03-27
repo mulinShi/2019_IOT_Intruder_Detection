@@ -2,7 +2,6 @@ from keras.applications.xception import Xception
 from keras.models import load_model
 from glob import glob
 import numpy as np
-import matplotlib.pyplot as plt
 import cv2 as cv
 import os
 
