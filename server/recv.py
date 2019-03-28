@@ -20,7 +20,7 @@ def socket_service():
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        s.bind(('127.0.0.1', 8080))
+        s.bind(('', 8080))
         s.listen(1)
     except socket.error as msg:
         print(msg)
