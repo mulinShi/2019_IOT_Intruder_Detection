@@ -1,46 +1,31 @@
-import socket, os, json, struct
+###客户端client.py
+import socket
+import os
+import sys
+import struct
 
-IP = '127.0.0.1'
-PORT = 8080
-ADD = (IP, PORT)
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(ADD)
+def sock_client_image():
+    while True:
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect(('35.244.107.42', 6666))  #服务器和客户端在不同的系统或不同的主机下时使用的ip和端口，首先要查看服务器所在的系统网卡的ip
+            # s.connect(('127.0.0.1', 6666))  #服务器和客户端都在一个系统下时使用的ip和端口
+        except socket.error as msg:
+            print(msg)
+            print(sys.exit(1))
+        filepath = input('input the file: ')   #输入当前目录下的图片名 xxx.jpg
+        fhead = struct.pack(b'128sq', bytes(os.path.basename(filepath), encoding='utf-8'), os.stat(filepath).st_size)  #将xxx.jpg以128sq的格式打包
+        s.send(fhead)
 
-# 上传文件
-while True:
-    file_path = input('请输入文件路径>>').strip()
-    if not os.path.exists(file_path):
-        print('文件不存在')
-        continue
-    file_name = (os.path.split(file_path))[1]
-    f = open(file_path, 'rb')
-    data = f.read()
-    size = len(data)
-
-    fileinfo_size = struct.calcsize("128sl")
-    fhead = struct.pack('128sl'.encode(), os.path.basename(file_path).encode(), os.stat(file_path).st_size)
-    client.send(fhead)
-    while 1:
-        if not data:
-            print ('{0} file send over ...'.format(file_path) )
-            break
-        client.send(data)
-    f.close()
-    client.close()
-
-    # hander = {
-    #     'file_name': file_name,
-    #     'length': size
-    # }
-    # # 报头序列化
-    # hander_json = json.dumps(hander)
-    # # 报头bytes转换
-    # hander_bytes = hander_json.encode('utf-8')
-    # # 报头长度固定
-    # s_hander = struct.pack('i', len(hander_bytes))
-    # # 传输报头长度
-    # client.send(s_hander)
-    # # 传输报头数据
-    # client.send(hander_bytes)
-    # # 传输文件数据
-    # client.send(date.encode('utf-8'))
+        fp = open(filepath, 'rb')  #打开要传输的图片
+        while True:
+            data = fp.read(1024) #读入图片数据
+            if not data:
+                print('{0} send over...'.format(filepath))
+                break
+            s.send(data)  #以二进制格式发送图片数据
+        s.close()
+        # break    #循环发送
+   
+if __name__ == '__main__':
+    sock_client_image()

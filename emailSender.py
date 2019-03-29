@@ -1,6 +1,9 @@
 import smtplib
 import sys
 import email.mime.text
+import email.mime.image
+import email.mime.multipart
+
 # my test mail
 mail_username='zh4055526@gmail.com'
 mail_password='!1q@2w#3e'
@@ -13,6 +16,24 @@ PORT = 587
  
 # Create SMTP Object
 smtp = smtplib.SMTP()
+
+class emailSender(object):
+	"""docstring for emailSender"""
+	def __init__(self, mail_username, mail_password, to_addrs, HOST, PORT):
+		self.mail_username = mail_username
+		self.mail_password = mail_password
+		self.from_addr = self.mail_username
+		self.to_addrs = to_addrs
+		
+		self.HOST = HOST
+		self.PORT = PORT
+
+		self.smtp = smtplib.SMTP()
+
+	def generateA
+
+
+
 print ('connecting ...')
  
 # show the debug log

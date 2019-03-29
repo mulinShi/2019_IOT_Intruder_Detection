@@ -1,70 +1,49 @@
-#!/usr/bin/env python
-# -*- coding=utf-8 -*-
-
-
-"""
-file: recv.py
-socket service
-"""
-
-
 import socket
-import threading
-import time
-import sys
 import os
+import sys
 import struct
 
-
-def socket_service():
+def socket_service_image():
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        # s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        s.bind(('127.0.0.1', 8080))
-        s.listen(1)
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        # s.bind(('127.0.0.1', 6666))
+        s.bind(('服务器的ip', 6666))
+        s.listen(10)
     except socket.error as msg:
         print(msg)
         sys.exit(1)
-    print ('Waiting connection...')
 
-    while 1:
-        conn, addr = s.accept()
-        t = threading.Thread(target=deal_data, args=(conn, addr))
-        t.start()
+    print("Wait for Connection.....................")
 
-def deal_data(conn, addr):
-    print ('Accept new connection from {0}'.format(addr))
-    #conn.settimeout(500)
-    conn.send('Hi, Welcome to the server!'.encode('utf-8'))
+    while True:
+        sock, addr = s.accept()  #addr是一个元组(ip,port)
+        deal_image(sock, addr)
+def deal_image(sock, addr):
+    print("Accept connection from {0}".format(addr))  #查看发送端的ip和端口
 
-    while 1:
-        fileinfo_size = struct.calcsize('128sl')
-        buf = conn.recv(fileinfo_size)
+    while True:
+        fileinfo_size = struct.calcsize('128sq')
+        buf = sock.recv(fileinfo_size)   #接收图片名
         if buf:
-            filename, filesize = struct.unpack('128sl', buf)
-            print("======>" + filename.decode())
-            fn = filename.decode().strip('\00')
-            new_filename = os.path.join('./', 'new_' + fn)
-            print ('file new name is {0}, filesize if {1}'.format(new_filename,
-                                                                 filesize))
+            filename, filesize = struct.unpack('128sq', buf)
+            fn = filename.decode().strip('\x00')
+            new_filename = os.path.join('./', '0.JPG')  #在服务器端新建图片名（可以不用新建的，直接用原来的也行，只要客户端和服务器不是同一个系统或接收到的图片和原图片不在一个文件夹下）
 
-            recvd_size = 0  
+            recvd_size = 0
             fp = open(new_filename, 'wb')
-            print ('start receiving...')
 
             while not recvd_size == filesize:
                 if filesize - recvd_size > 1024:
-                    data = conn.recv(1024)
+                    data = sock.recv(1024)
                     recvd_size += len(data)
                 else:
-                    data = conn.recv(filesize - recvd_size)
+                    data = sock.recv(1024)
                     recvd_size = filesize
-                fp.write(data)
+                fp.write(data)  #写入图片数据
             fp.close()
-            print ('end receive...')
-        conn.close()
+        sock.close()
         break
-
-
+        
 if __name__ == '__main__':
-    socket_service()
+    socket_service_image()
