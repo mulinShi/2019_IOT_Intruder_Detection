@@ -6,10 +6,16 @@ import struct
 def socket_service_image():
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+<<<<<<< HEAD
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         # s.bind(('127.0.0.1', 6666))
         s.bind(('服务器的ip', 6666))
         s.listen(10)
+=======
+        # s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        s.bind(('', 8080))
+        s.listen(1)
+>>>>>>> 1dde9e7ec30a934814f335874085a0cd4ad79894
     except socket.error as msg:
         print(msg)
         sys.exit(1)
@@ -46,4 +52,8 @@ def deal_image(sock, addr):
         break
         
 if __name__ == '__main__':
+<<<<<<< HEAD
     socket_service_image()
+=======
+    socket_service()
+>>>>>>> 1dde9e7ec30a934814f335874085a0cd4ad79894

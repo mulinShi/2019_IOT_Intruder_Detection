@@ -72,7 +72,7 @@ if __name__ == '__main__':
 	mail_username='zh4055526@gmail.com'
 	mail_password='!1q@2w#3e'
 	# from_addr = mail_username
-	to_addrs="757496717@qq.com"
+	to_addrs="617946318@qq.com"
 	 
 	# HOST & PORT
 	HOST = 'smtp.gmail.com'
