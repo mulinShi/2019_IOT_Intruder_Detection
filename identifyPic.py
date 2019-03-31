@@ -1,5 +1,6 @@
 from keras.applications.xception import Xception
 from keras.models import load_model
+import keras
 from glob import glob
 import numpy as np
 import cv2 as cv
@@ -26,6 +27,7 @@ class identifyPic(object):
         return np.asarray(test_set), np.asarray(test_set_rgb)
 
     def predict(self):
+        keras.backend.clear_session()
         # load test images
         test_dir = self.path
         filenames = glob(os.path.join(test_dir, '*.jpg'))
@@ -53,20 +55,20 @@ class identifyPic(object):
         return prediction
 
 
-if __name__ == '__main__':
-    import emailSender as emailSender
-    identifier = identifyPic(r"./raw/test/")
-    prediction = identifier.predict()
-    if prediction < 0.5:
-        mail_username='zh4055526@gmail.com'
-        mail_password='!1q@2w#3e'
-        # from_addr = mail_username
-        to_addrs="820963346@qq.com"
+# if __name__ == '__main__':
+#     import emailSender as emailSender
+#     identifier = identifyPic(r"./raw/test/")
+#     prediction = identifier.predict()
+#     if prediction < 0.5:
+#         mail_username='zh4055526@gmail.com'
+#         mail_password='!1q@2w#3e'
+#         # from_addr = mail_username
+#         to_addrs="646618065@qq.com"
          
-        # HOST & PORT
-        HOST = 'smtp.gmail.com'
-        PORT = 587
+#         # HOST & PORT
+#         HOST = 'smtp.gmail.com'
+#         PORT = 587
          
-        # mail_username, mail_password, to_addrs, HOST, PORT
-        email = emailSender.emailSender(mail_username, mail_password, to_addrs, HOST, PORT)
-        email.send()
+#         # mail_username, mail_password, to_addrs, HOST, PORT
+#         email = emailSender.emailSender(mail_username, mail_password, to_addrs, HOST, PORT)
+#         email.send()

@@ -6,7 +6,7 @@ from email.mime.multipart import MIMEMultipart
 
 class emailSender(object):
 	"""docstring for emailSender"""
-	def __init__(self, mail_username, mail_password, to_addrs, HOST, PORT):
+	def __init__(self, mail_username, mail_password, to_addrs, HOST, PORT, path):
 		self.mail_username = mail_username
 		self.mail_password = mail_password
 		self.from_addr = self.mail_username
@@ -14,6 +14,7 @@ class emailSender(object):
 		
 		self.HOST = HOST
 		self.PORT = PORT
+		self.path = path
 
 	def generateMsg(self):
 		msg = MIMEMultipart()
@@ -32,7 +33,7 @@ class emailSender(object):
 		
 		msg.attach(MIMEText(mail_msg, 'html', 'utf-8'))
 
-		f = open(r"./raw/test/0.jpg", 'rb')
+		f = open(self.path, 'rb')
 		img = MIMEImage(f.read())
 		f.close()
 
@@ -62,20 +63,7 @@ class emailSender(object):
 		smtp.quit()
 		print('Success!')
 		
+		
 		return
 
- 
-if __name__ == '__main__':
-	# my test mail
-	mail_username='zh4055526@gmail.com'
-	mail_password='!1q@2w#3e'
-	# from_addr = mail_username
-	to_addrs="617946318@qq.com"
-	 
-	# HOST & PORT
-	HOST = 'smtp.gmail.com'
-	PORT = 587
-	 
- 	# mail_username, mail_password, to_addrs, HOST, PORT
-	email = emailSender(mail_username, mail_password, to_addrs, HOST, PORT)
-	email.send()
+
