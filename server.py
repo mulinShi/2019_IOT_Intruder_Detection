@@ -67,8 +67,8 @@ def deal_image(sock, addr):
             fp.close()
         break
 
-    os.system("python process.py %s %s"%(new_path, fn))   # for win
-    # if os.popen("python3 process.py %s %s"%(new_path, fn)):   # for linux
+    # os.system("python process.py %s %s"%(new_path, fn))   # for win
+    if os.popen("python3 process.py %s %s"%(new_path, fn)):   # for linux
         sock.send("1".encode())
 
     sock.close()
