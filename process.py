@@ -20,11 +20,12 @@ def process(path, fn):
         # mail_username, mail_password, to_addrs, HOST, PORT
         # email = emailSender.emailSender(mail_username, mail_password, to_addrs, HOST, PORT, path+'\\'+fn)  # for win
         email = emailSender.emailSender(mail_username, mail_password, to_addrs, HOST, PORT, path+'/'+fn)     # for linux
-
         email.send()
+        return 1
     else:
 	    shutil.rmtree(path)
 	    print("*** Folder deleted! ***")
+	    return 0
 
 if __name__ == "__main__":
     process(sys.argv[1], sys.argv[2])

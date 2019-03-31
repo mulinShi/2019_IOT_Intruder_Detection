@@ -43,6 +43,7 @@ def deal_image(sock, addr):
     print("Accept connection from {0}".format(addr))  #查看发送端的ip和端口
 
     while True:
+        print("")
         fileinfo_size = struct.calcsize('128sq')
         buf = sock.recv(fileinfo_size)   #接收图片名
         if buf:
@@ -64,13 +65,19 @@ def deal_image(sock, addr):
                     recvd_size = filesize
                 fp.write(data)  #写入图片数据
             fp.close()
-            sock.send("1".encode())
-        sock.close()
         break
 
-    # os.system("python process.py %s %s"%(new_path, fn))   # for win
-    os.system("python3 process.py %s %s"%(new_path, fn))   # for linux
-    
+    returnValue = os.popen("python process.py %s %s"%(new_path, fn))
+    print("***", returnValue)
+    if returnValue == 1:   # for win
+    # if os.popen("python3 process.py %s %s"%(new_path, fn)):   # for linux
+        sock.send("1".encode())
+        print("*** Alarm sent!")
+
+    else:
+        sock.send("0".encode())
+
+    sock.close()
     # import emailSender as emailSender
     # identifier = ip.identifyPic(new_path)
     # prediction = identifier.predict()

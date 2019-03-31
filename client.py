@@ -29,7 +29,8 @@ def sock_client_image():
             s.send(data)  #以二进制格式发送图片数据
 
         signal = s.recv(2).decode()
-        if signal:
+        if signal == 1:
+            print("Received signal! Start alarm!")
             alarm()
         s.close()
         # break    #循环发送
