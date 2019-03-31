@@ -70,14 +70,14 @@ def deal_image(sock, addr):
         break
 
     # process pic and return value
-    return_value = subprocess.Popen("python process.py %s %s"%(new_path, fn))
+    # return_value = subprocess.Popen("python process.py %s %s"%(new_path, fn))           # for win
+    return_value = subprocess.Popen("sudo python3 process.py %s %s"%(new_path, fn))     # for linux
 
     while return_value.poll() is None:
     # Process hasn't exited yet, let's wait some
         time.sleep(0.5)
     print("**** sbsb ",return_value.returncode)
     if return_value.returncode:   # for win
-    # if os.popen("python3 process.py %s %s"%(new_path, fn)):   # for linux
         print("Sent")
         sock.send("1".encode())
     else:

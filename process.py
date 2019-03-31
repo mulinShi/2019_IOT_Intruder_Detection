@@ -28,4 +28,5 @@ def process(path, fn):
 	    exit(0)
 
 if __name__ == "__main__":
-    process(sys.argv[1], sys.argv[2])
+    # process(sys.argv[1], sys.argv[2])		# for win
+    process(sys.argv[2], sys,argv[3])		# for linux
