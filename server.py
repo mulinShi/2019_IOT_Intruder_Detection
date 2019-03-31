@@ -77,7 +77,7 @@ def deal_image(sock, addr):
     while return_value.poll() is None:
     # Process hasn't exited yet, let's wait some
         time.sleep(0.5)
-    print("**** sbsb ",return_value.returncode)
+    print("**** return value:",return_value.returncode)
     if return_value.returncode:   # for win
         print("Sent")
         sock.send("1".encode())

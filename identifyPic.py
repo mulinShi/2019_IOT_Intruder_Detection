@@ -17,14 +17,17 @@ class identifyPic(object):
     def load_test_images(self, file_list):
         test_set = list()
         test_set_rgb = list()
-        for file in file_list:
-            print(file)
-            img = cv.imread(file)
-            img_rgb = cv.cvtColor(img, cv.COLOR_BGR2RGB)
-            test_set.append(img)
-            test_set_rgb.append(img_rgb)
+        try:
+            for file in file_list:
+                print(file)
+                img = cv.imread(file)
+                img_rgb = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+                test_set.append(img)
+                test_set_rgb.append(img_rgb)
 
-        return np.asarray(test_set), np.asarray(test_set_rgb)
+            return np.asarray(test_set), np.asarray(test_set_rgb)
+        except:
+            return self.load_test_images(file_list)
 
     def predict(self):
         keras.backend.clear_session()
