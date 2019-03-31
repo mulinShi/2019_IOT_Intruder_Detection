@@ -30,8 +30,8 @@ def socket_service_image():
 
 def makePath(addr):
     dt = datetime.datetime.now()
-    new_path = addr[0] + '\\' + dt.strftime('%Y%m%d%H%M%S%f') # for win
-    # new_path = addr[0] + '/' + dt.strftime('%Y%m%d%H%M%S%f') # for linux
+    # new_path = addr[0] + '\\' + dt.strftime('%Y%m%d%H%M%S%f') # for win
+    new_path = addr[0] + '/' + dt.strftime('%Y%m%d%H%M%S%f') # for linux
     try: 
         os.makedirs(new_path)
         return new_path
@@ -68,8 +68,8 @@ def deal_image(sock, addr):
         sock.close()
         break
 
-    os.system("python process.py %s %s"%(new_path, fn))   # for win
-    # os.system("python3 process.py %s %s"%(new_path, fn))   # for linux
+    # os.system("python process.py %s %s"%(new_path, fn))   # for win
+    os.system("python3 process.py %s %s"%(new_path, fn))   # for linux
     
     # import emailSender as emailSender
     # identifier = ip.identifyPic(new_path)
