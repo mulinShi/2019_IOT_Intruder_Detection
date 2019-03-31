@@ -45,7 +45,7 @@ class identifyPic(object):
         # make predictions
         print("================================")
         print("making predictions...")
-        base_model = Xception(include_top=False, weights='imagenet', pooling='avg', name=self.path)
+        base_model = Xception(include_top=False, weights='imagenet', pooling='avg')
         iot_model = load_model('./model/iot_model_1553242985.h5')
         features = base_model.predict(images,batch_size=20)
         prediction = iot_model.predict(features,batch_size=20)

@@ -4,6 +4,8 @@ import sys
 import struct
 import _thread
 import datetime
+import subprocess
+import time
 
 import process as process
 # import identifyPic as ip
@@ -67,10 +69,19 @@ def deal_image(sock, addr):
             fp.close()
         break
 
-    # os.system("python process.py %s %s"%(new_path, fn))   # for win
-    if os.popen("python3 process.py %s %s"%(new_path, fn)):   # for linux
-        sock.send("1".encode())
+    # process pic and return value
+    return_value = subprocess.Popen("python process.py %s %s"%(new_path, fn))
 
+    while return_value.poll() is None:
+    # Process hasn't exited yet, let's wait some
+        time.sleep(0.5)
+    print("**** sbsb ",return_value.returncode)
+    if return_value.returncode:   # for win
+    # if os.popen("python3 process.py %s %s"%(new_path, fn)):   # for linux
+        print("Sent")
+        sock.send("1".encode())
+    else:
+        sock.send("0".encode())
     sock.close()
     # import emailSender as emailSender
     # identifier = ip.identifyPic(new_path)
