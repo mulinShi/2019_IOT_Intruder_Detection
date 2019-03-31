@@ -67,15 +67,9 @@ def deal_image(sock, addr):
             fp.close()
         break
 
-    returnValue = os.popen("python process.py %s %s"%(new_path, fn))
-    print("***", returnValue)
-    if returnValue == 1:   # for win
+    os.system("python process.py %s %s"%(new_path, fn))   # for win
     # if os.popen("python3 process.py %s %s"%(new_path, fn)):   # for linux
         sock.send("1".encode())
-        print("*** Alarm sent!")
-
-    else:
-        sock.send("0".encode())
 
     sock.close()
     # import emailSender as emailSender
