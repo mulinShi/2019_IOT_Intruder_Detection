@@ -6,6 +6,7 @@ import _thread
 import datetime
 import subprocess
 import time
+import shlex
 
 import process as process
 # import identifyPic as ip
@@ -70,8 +71,8 @@ def deal_image(sock, addr):
         break
 
     # process pic and return value
-    # return_value = subprocess.Popen("python process.py %s %s"%(new_path, fn))           # for win
-    return_value = subprocess.Popen("sudo python3 process.py %s %s"%(new_path, fn))     # for linux
+    # return_value = subprocess.Popen("python process.py %s %s"%(new_path, fn))                       # for win
+    return_value = subprocess.Popen(shlex.split("sudo python3 process.py %s %s"%(new_path, fn)))      # for linux
 
     while return_value.poll() is None:
     # Process hasn't exited yet, let's wait some
